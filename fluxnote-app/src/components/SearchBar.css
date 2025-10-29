@@ -1,0 +1,18 @@
+.search-bar .input-group-text {
+  border-right: 0;
+}
+
+.search-bar .form-control:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+
+.search-bar .form-control {
+  border-left: 0;
+  border-right: 0;
+}
+
+.search-bar .btn-outline-secondary {
+  border-left: 0;
+}
+

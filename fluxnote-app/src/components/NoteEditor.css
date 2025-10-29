@@ -1,0 +1,62 @@
+.note-editor {
+  height: 100%;
+}
+
+.editor-header {
+  background-color: #f8f9fa;
+}
+
+.note-title-input:focus {
+  border-bottom-color: #0d6efd !important;
+  box-shadow: none;
+  outline: none;
+}
+
+.note-content-input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.note-title-display {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.note-content-display {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #495057;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .editor-meta .badge {
+    font-size: 0.7rem;
+  }
+
+  .note-title-input,
+  .note-title-display {
+    font-size: 1.5rem;
+  }
+
+  .note-content-input,
+  .note-content-display {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .note-title-input,
+  .note-title-display {
+    font-size: 1.25rem;
+  }
+
+  .note-content-input,
+  .note-content-display {
+    font-size: 0.9rem;
+  }
+}
+
