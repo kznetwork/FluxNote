@@ -1,0 +1,28 @@
+FluxNote 백엔드 환경 변수 설정 가이드
+==========================================
+
+이 파일의 내용을 복사하여 'fluxnote-backend' 폴더에 '.env' 파일을 생성하세요.
+
+1. 'fluxnote-backend' 폴더로 이동
+2. 새 파일 '.env' 생성
+3. 아래 내용을 복사하여 붙여넣기
+4. 필요시 값 수정 (특히 DB_PASSWORD와 JWT_SECRET)
+
+========== 아래 내용을 .env 파일에 복사 ==========
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fluxnote_db
+DB_USER=postgres
+DB_PASSWORD=postgresql
+
+PORT=5000
+JWT_SECRET=fluxnote_jwt_secret_key_change_in_production
+
+====================================================
+
+참고:
+- DB_PASSWORD: PostgreSQL 설치 시 설정한 postgres 사용자의 비밀번호
+- JWT_SECRET: 운영 환경에서는 강력한 랜덤 문자열로 변경 권장
+- .env 파일은 Git에 커밋되지 않습니다 (.gitignore 설정됨)
+

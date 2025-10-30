@@ -5,12 +5,24 @@ import './App.css';
 import NoteList from './components/NoteList';
 import NoteEditor from './components/NoteEditor';
 import SearchBar from './components/SearchBar';
+import Auth from './components/Auth';
 
 function App() {
+  const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+
+  // 로그인 상태 확인
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+    
+    if (token && savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   // localStorage에서 노트 불러오기
   useEffect(() => {
@@ -77,11 +89,42 @@ function App() {
     setIsEditing(false);
   };
 
+  // 로그인 성공 핸들러
+  const handleAuthSuccess = (userData) => {
+    setUser(userData);
+  };
+
+  // 로그아웃 핸들러
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await fetch('http://localhost:5000/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setUser(null);
+      setNotes([]);
+      setSelectedNote(null);
+    }
+  };
+
   // 검색어로 노트 필터링
   const filteredNotes = notes.filter(note =>
     note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     note.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // 로그인되지 않았으면 Auth 컴포넌트 표시
+  if (!user) {
+    return <Auth onAuthSuccess={handleAuthSuccess} />;
+  }
 
   return (
     <div className="App">
@@ -90,10 +133,20 @@ function App() {
           <h1 className="mb-0 fw-bold">
             <i className="bi bi-journal-text me-2"></i>FluxNote
           </h1>
-          <button className="btn btn-success d-flex align-items-center" onClick={handleCreateNote}>
-            <i className="bi bi-plus-circle me-2"></i>
-            새 노트
-          </button>
+          <div className="d-flex align-items-center gap-3">
+            <span className="text-white">
+              <i className="bi bi-person-circle me-2"></i>
+              {user.username}
+            </span>
+            <button className="btn btn-success d-flex align-items-center" onClick={handleCreateNote}>
+              <i className="bi bi-plus-circle me-2"></i>
+              새 노트
+            </button>
+            <button className="btn btn-outline-light d-flex align-items-center" onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right me-2"></i>
+              로그아웃
+            </button>
+          </div>
         </div>
       </header>
       
